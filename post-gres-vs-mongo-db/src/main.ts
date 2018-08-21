@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { createConnection } from "typeorm";
+import { Big } from 'entities/big.entity';
 const cors = require('cors');
 
 createConnection({
@@ -11,8 +12,10 @@ createConnection({
   password: "123456",
   database: "postgresvsmongo",
   entities: [
-    
-  ]
+    Big, 
+  ],
+  synchronize: true,
+  logging: false
 }).then(connection => {}).catch(error => console.log(error));
 
 async function bootstrap() {
