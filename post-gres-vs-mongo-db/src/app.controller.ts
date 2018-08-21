@@ -1,8 +1,9 @@
 import { Get, Controller, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Big } from 'entities/big.entity';
 import { Result } from 'range-parser';
 
-@Controller()
+@Controller('api')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -11,8 +12,8 @@ export class AppController {
     return this.appService.root();
   }
 
-  @Post('/go')
-  go(@Body() body): string{
-    return 'Post/go! =)';  
+  @Post('/register')
+  async register(@Body() big): Promise<Big>{
+    return this.appService.register(big);
   }
 }
