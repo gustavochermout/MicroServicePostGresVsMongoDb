@@ -12,6 +12,11 @@ export class AppController {
     return this.appService.root();
   }
 
+  @Get('/big')
+  async find(): Promise<Big[]>{
+    return this.appService.find();
+  } 
+
   @Post('/register')
   async register(@Body() big): Promise<Big>{
     return this.appService.register(big);

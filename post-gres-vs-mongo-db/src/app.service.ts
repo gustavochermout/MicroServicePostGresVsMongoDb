@@ -8,6 +8,10 @@ export class AppService {
     return 'Hello World!';
   } 
 
+  async find(): Promise<Big[]>{
+    return Big.find();  
+  }
+
   async register(big){
     const b = new Big();
     b.value = big.value;
