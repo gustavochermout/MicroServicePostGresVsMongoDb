@@ -12,13 +12,15 @@ export class AppController {
     return this.appService.root();
   }
 
-  @Get('/big')
-  async find(): Promise<Big[]>{
-    return this.appService.find();
+  @Post('/big')
+  async find(@Body() body): Promise<Big[]>{
+    if (body.connection === 'postgres')
+      return this.appService.findPostgres();
   } 
 
   @Post('/register')
-  async register(@Body() big): Promise<Big>{
-    return this.appService.register(big);
+  async register(@Body() body): Promise<Big>{
+    if (body.connection === 'postgres')
+      return this.appService.registerPostgres(body);
   }
 }

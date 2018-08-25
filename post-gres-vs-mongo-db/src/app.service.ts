@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Body } from '@nestjs/common';
 import { Big } from 'entities/big.entity';
+import { getConnection, getConnectionManager } from 'typeorm';
 
 @Injectable()
 export class AppService {
@@ -8,14 +9,20 @@ export class AppService {
     return 'Hello World!';
   } 
 
-  async find(): Promise<Big[]>{
-    return Big.find();  
+  async findPostgres(): Promise<Big[]>{
+    let connection;
+    connection = getConnection('postgres');
+
+    return connection.getRepository(Big).createQueryBuilder('u').select().getMany(); 
   }
 
-  async register(big){
-    const b = new Big();
-    b.value = big.value;
+  async registerPostgres(@Body() body){
+    let connection;
+    connection = getConnection('postgres');
+
+    const big = new Big();
+    big.value = body.value;
     
-    return b.save();
+    return connection.createQueryBuilder().insert().into(Big).values(big).execute();
   }
 }

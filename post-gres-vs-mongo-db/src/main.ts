@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { createConnection } from "typeorm";
+import { createConnections } from "typeorm";
 import { Big } from 'entities/big.entity';
 const cors = require('cors');
 
-createConnection({
+createConnections([{
+  name: "postgres",
   type: "postgres",
   host: "localhost",
   port: 5432,
@@ -16,7 +17,13 @@ createConnection({
   ],
   synchronize: true,
   logging: false
-}).then(connection => {}).catch(error => console.log(error));
+}, {
+  name: "mongodb",
+  type: "mongodb",
+  host: "localhost",
+  port: 27017,
+  database: "postgresvsmongo",
+}]).then(connection => {}).catch(error => console.log(error));
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
