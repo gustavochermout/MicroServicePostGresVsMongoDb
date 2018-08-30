@@ -1,7 +1,7 @@
 import { Get, Controller, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Big } from 'entities/big.entity';
-import { Result } from 'range-parser';
+import { Bigdocument } from 'entities/bigdocument.entity';
 
 @Controller('api')
 export class AppController {
@@ -12,15 +12,18 @@ export class AppController {
     return this.appService.root();
   }
 
-  @Post('/big')
-  async find(@Body() body): Promise<Big[]>{
-    if (body.connection === 'postgres')
-      return this.appService.findPostgres();
+  @Get('/big/find')
+  async findBig(): Promise<Big[]>{
+    return this.appService.findBig();
   } 
 
-  @Post('/register')
-  async register(@Body() body): Promise<Big>{
-    if (body.connection === 'postgres')
-      return this.appService.registerPostgres(body);
+  @Post('/big/register')
+  async registerBig(@Body() body): Promise<Big>{
+    return this.appService.registerBig(body);
+  }
+
+  @Get('/bigdocument/find')
+  async findBigDocument(): Promise<Bigdocument[]>{
+    return this.appService.findBigDocument();
   }
 }

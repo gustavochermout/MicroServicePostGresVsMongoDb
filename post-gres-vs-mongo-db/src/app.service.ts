@@ -1,6 +1,7 @@
 import { Injectable, Body } from '@nestjs/common';
 import { Big } from 'entities/big.entity';
-import { getConnection, getConnectionManager } from 'typeorm';
+import { getConnection, getConnectionManager, getMongoManager } from 'typeorm';
+import { Bigdocument } from 'entities/bigdocument.entity';
 
 @Injectable()
 export class AppService {
@@ -9,14 +10,14 @@ export class AppService {
     return 'Hello World!';
   } 
 
-  async findPostgres(): Promise<Big[]>{
+  async findBig(): Promise<Big[]>{
     let connection;
     connection = getConnection('postgres');
 
-    return connection.getRepository(Big).createQueryBuilder('u').select().getMany(); 
+    return connection.getRepository(Big).createQueryBuilder().select().getMany(); 
   }
 
-  async registerPostgres(@Body() body){
+  async registerBig(@Body() body){
     let connection;
     connection = getConnection('postgres');
 
@@ -24,5 +25,10 @@ export class AppService {
     big.value = body.value;
     
     return connection.createQueryBuilder().insert().into(Big).values(big).execute();
+  }
+
+  async findBigDocument(): Promise<Bigdocument[]>{
+    const manager = getMongoManager('mongodb');
+    return await manager.find(Bigdocument);
   }
 }
