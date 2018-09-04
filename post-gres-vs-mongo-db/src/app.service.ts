@@ -14,7 +14,7 @@ export class AppService {
     let connection;
     connection = getConnection('postgres');
 
-    return connection.getRepository(Big).createQueryBuilder().select().getMany(); 
+    return await connection.getRepository(Big).createQueryBuilder().select().getMany(); 
   }
 
   async registerBig(@Body() body){
@@ -24,7 +24,14 @@ export class AppService {
     const big = new Big();
     big.value = body.value;
     
-    return connection.createQueryBuilder().insert().into(Big).values(big).execute();
+    return await connection.createQueryBuilder().insert().into(Big).values(big).execute();
+  }
+
+  async deleteAllBig(){
+    let connection;
+    connection = getConnection('postgres');
+
+    return await connection.createQueryBuilder().delete().from(Big).where().execute();
   }
 
   async findBigDocument(): Promise<Bigdocument[]>{
@@ -38,6 +45,12 @@ export class AppService {
     const bigdocument = new Bigdocument;
     bigdocument.value = body.value;
 
-    return manager.save(bigdocument);
+    return await manager.save(bigdocument);
+  }
+
+  async deleteAllBigDocument(){
+    const manager = getMongoManager('mongodb');
+    const allBigDocuments = await manager.find(Bigdocument);
+    return await manager.remove(allBigDocuments);
   }
 }

@@ -22,6 +22,12 @@ export class AppController {
     return this.appService.registerBig(body);
   }
 
+  @Post('/big/deleteall')
+  async deleteAllBig(): Promise<string>{
+    this.appService.deleteAllBig();
+    return "Todos os registros da tabela Big foram deletados. =)";
+  }
+
   @Get('/bigdocument/find')
   async findBigDocument(): Promise<Bigdocument[]>{
     return this.appService.findBigDocument();
@@ -30,5 +36,11 @@ export class AppController {
   @Post('/bigdocument/register')
   async registerBigDocument(@Body() body): Promise<Bigdocument>{
     return this.appService.registerBigDocument(body);
+  }
+
+  @Post('/bigdocument/deleteall')
+  async deleteAllBigDocument(): Promise<string>{
+    this.appService.deleteAllBigDocument();
+    return "Todos os documentos da coleção BigDocument foram deletados. =)";
   }
 }
