@@ -31,4 +31,13 @@ export class AppService {
     const manager = getMongoManager('mongodb');
     return await manager.find(Bigdocument);
   }
+
+  async registerBigDocument(@Body() body){
+    const manager = getMongoManager('mongodb');
+
+    const bigdocument = new Bigdocument;
+    bigdocument.value = body.value;
+
+    return manager.save(bigdocument);
+  }
 }

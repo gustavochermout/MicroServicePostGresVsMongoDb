@@ -26,4 +26,9 @@ export class AppController {
   async findBigDocument(): Promise<Bigdocument[]>{
     return this.appService.findBigDocument();
   }
+
+  @Post('/bigdocument/register')
+  async registerBigDocument(@Body() body): Promise<Bigdocument>{
+    return this.appService.registerBigDocument(body);
+  }
 }
