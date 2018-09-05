@@ -24,7 +24,7 @@ export class AppController {
 
   @Post('/big/deleteall')
   async deleteAllBig(): Promise<string>{
-    this.appService.deleteAllBig();
+    await this.appService.deleteAllBig();
     return "Todos os registros da tabela Big foram deletados. =)";
   }
 
@@ -40,12 +40,12 @@ export class AppController {
 
   @Post('/bigdocument/deleteall')
   async deleteAllBigDocument(): Promise<string>{
-    this.appService.deleteAllBigDocument();
+    await this.appService.deleteAllBigDocument();
     return "Todos os documentos da coleção BigDocument foram deletados. =)";
   }
 
   @Post('/register/random')
   async registerRandomValues(@Body() body): Promise<string>{
-      return this.appService.registerRandomValues(body);
+    return this.appService.registerRandomValues(body);
   }
 }
