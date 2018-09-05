@@ -53,4 +53,25 @@ export class AppService {
     const allBigDocuments = await manager.find(Bigdocument);
     return await manager.remove(allBigDocuments);
   }
+
+  async generateRandomString(@Body() body): Promise<string>{
+    let crypto = require('crypto');
+    return await crypto.randomBytes(body.size/2).toString('hex');     
+  }
+
+  async registerRandomValues(@Body() body): Promise<string>{
+      let i = 0;
+
+      for (; i < body.quantity; i++){
+          body.value = await this.generateRandomString(body);
+
+          if (body.place === 'big')
+              this.registerBig(body);
+          
+          if (body.place === 'bigdocument')
+              this.registerBigDocument(body);
+      }
+
+      return await i.toString() + " registros aleatórios inseridos! =)";
+  }
 }

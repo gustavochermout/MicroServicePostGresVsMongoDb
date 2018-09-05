@@ -43,4 +43,9 @@ export class AppController {
     this.appService.deleteAllBigDocument();
     return "Todos os documentos da coleção BigDocument foram deletados. =)";
   }
+
+  @Post('/register/random')
+  async registerRandomValues(@Body() body): Promise<string>{
+      return this.appService.registerRandomValues(body);
+  }
 }
