@@ -1,7 +1,8 @@
 import { Injectable, Body } from '@nestjs/common';
 import { Big } from 'entities/big.entity';
-import { getConnection, getConnectionManager, getMongoManager } from 'typeorm';
+import { getConnection, getConnectionManager, getMongoManager, getMongoRepository } from 'typeorm';
 import { Bigdocument } from 'entities/bigdocument.entity';
+import { empty } from 'rxjs';
 
 @Injectable()
 export class AppService {
@@ -49,9 +50,8 @@ export class AppService {
   }
 
   async deleteAllBigDocument(){
-    const manager = getMongoManager('mongodb');
-    const allBigDocuments = await manager.find(Bigdocument);
-    return await manager.remove(allBigDocuments);
+    const postRepository = getMongoRepository(Bigdocument, 'mongodb');
+    return await postRepository.deleteMany({});
   }
 
   async generateRandomString(@Body() body): Promise<string>{
