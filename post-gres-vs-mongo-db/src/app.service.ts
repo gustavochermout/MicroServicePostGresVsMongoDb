@@ -6,10 +6,10 @@ import { empty } from 'rxjs';
 
 @Injectable()
 export class AppService {
-  
+
   root(): string {
     return 'Hello World!';
-  } 
+  }
 
   async findBig(): Promise<Big[]>{
     let connection;
@@ -56,22 +56,28 @@ export class AppService {
 
   async generateRandomString(@Body() body): Promise<string>{
     let crypto = require('crypto');
-    return await crypto.randomBytes(body.size/2).toString('hex');     
+    return await crypto.randomBytes(body.size/2).toString('hex'); 
   }
 
-  async registerRandomValues(@Body() body): Promise<string>{
-      let i = 0;
+  async registerRandomValues(@Body() body, inicio: number) {
+    try {
+      body.value = await this.generateRandomString(body);
 
-      for (; i < body.quantity; i++){
-          body.value = await this.generateRandomString(body);
+      if (body.place === 'big')
+          await this.registerBig(body);
 
-          if (body.place === 'big')
-              this.registerBig(body);
-          
-          if (body.place === 'bigdocument')
-              this.registerBigDocument(body);
-      }
+      if (body.place === 'bigdocument')
+          await this.registerBigDocument(body);
 
-      return await i.toString() + " registros aleatórios inseridos! =)";
+      return {
+        status: 200,
+        inicio,
+      };
+    } catch {
+      return {
+        status: 500,
+        inicio,
+      };
+    }
   }
 }

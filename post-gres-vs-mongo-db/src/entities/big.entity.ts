@@ -2,7 +2,7 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('big')
 export class Big extends BaseEntity{
-    
+
     @PrimaryGeneratedColumn()
     id: number;
 
