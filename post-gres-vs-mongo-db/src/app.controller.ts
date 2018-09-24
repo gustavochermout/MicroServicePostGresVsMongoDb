@@ -45,7 +45,7 @@ export class AppController {
   }
 
   @Post('/register/random')
-  async registerRandomValues(@Body() body): Promise<string>{
+  async registerRandomValues(@Body() body){
     let sucess = 0;
     let error = 0;
     let timeMedia = 0;
@@ -65,7 +65,7 @@ export class AppController {
       }
     }
     console.log(`Você tentou inserir ${body.quantity} registros dos quais ${sucess} teve sucesso e tiveram ${error} erros de inserção`)
-    console.log(`Tempo medio de inserção: ${timeMedia / (sucess + error)}`);
-    console.log(`Tempo total da operação: ${timeMedia}`);
+    console.log(`Tempo medio de inserção: ${timeMedia / (sucess + error)} ms`);
+    console.log(`Tempo total da operação: ${timeMedia} ms`);
   }
 }

@@ -11,7 +11,7 @@ createConnections([{
   host: "localhost",
   port: 5432,
   username: "postgres",
-  password: "173426",
+  password: "123456",
   database: "postgresvsmongo",
   entities: [
     Big, 
@@ -32,6 +32,6 @@ createConnections([{
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cors());
-  await app.listen(3001);
+  await app.listen(3000);
 }
 bootstrap();
